@@ -1,0 +1,67 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+{% if user.is_authenticated %}
+    <tbody>
+        <tr>
+            <td style="width:40px;">
+                <h5>{{ listing.title }}</h5>
+                <img src="{{ listing.imgLink }}"/>
+            </td>
+            <td style="width: 60%;">
+                <div>{{ listing.description }}</div>
+                    <br>
+                <form action="{% url 'bid' listing.id %}" method="post">
+                    {% csrf_token %}
+                    <div>Bid: $ <input type="number" min="{{ listing.price }}" step="0.01" name="bid">
+                    <input type="submit"> </div>
+                </form>
+
+                <br>
+
+                <div>Category: {{ category }}</div>
+                <div>Listed by: {{ listing.user }}</div>
+
+                <div class="checkbox" >
+                    {% if watching %}
+                        <a href="{% url 'removingWatchlist' listing.id %}"> Remove from Watchlist</a>
+                    {% else %}
+                        <a href="{% url 'addingWatchlist' listing.id %}"> Add to Watchlist</a>
+                    {% endif %}
+                </div>
+
+                {% if owner %}
+                    <a href="{% url 'closingBid' listing.id %}">Close Bids</a>
+                {% else %}
+                    
+                {% endif %}
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<hr>
+
+<form action="{% url 'listing' listing.id %}" method="post">
+    {% csrf_token %}
+    <h6>Add comment</h6>
+    <textarea class name="comment" style="width:40%;"></textarea>
+    <br>
+    <input type="submit">
+</form>
+<br> 
+<h6>Comments:</h6>
+    {% for comment in comments %}
+    <br>
+    <i class="fa fa-user-circle-o float-left pt-1 pr-1" aria-hidden="true"></i>
+    <h5 class="username">{{ comment.user }}</h5>
+        <p class="message" style="margin-left: 40px"> {{ comment.comment }}</p>
+    </div>
+    
+    {% endfor %}
+</ul>
+{% else %}
+<h6>Please login or create an account</h6>
+{% endif %}
+{% endblock %}

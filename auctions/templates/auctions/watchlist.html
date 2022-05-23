@@ -1,0 +1,30 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<center><h1>Watchlist:</h1></center>
+    {% for listing in listings %} 
+        {% if not listing.sold %}
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td style="width:60px;">
+                            <img src="{{ listing.imgLink }}"/>
+                        </td>
+                        <td style="width: 60%;"  valign="top">
+                            <h5><a href="{% url 'listing' listing.id %}" >{{ listing.title }}</a></h5>
+                            <div>Bid: ${{ listing.price }}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    
+        {% endif %}
+    {% empty %}
+    <br>
+<center><h6>Nothing in your watchlist.</h6></center>
+
+    {% endfor %}
+</ul>
+
+{% endblock %}

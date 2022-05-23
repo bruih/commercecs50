@@ -1,0 +1,29 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<center><h1>Active Listings</h1></center>
+    {% for listing in listings %} 
+                <table style="width: 100%;">
+                    <tbody>
+                            <td style="width:60px;">
+                                <img src="{{ listing.imgLink }}" style="width:200px; margin: 50px; padding: 10px;"/>
+                            </td>
+                            <td style="width: 60%;"  valign="left">
+                                <h5><a href="{% url 'listing' listing.id %}" >{{ listing.title }}</a></h5>
+                                <div>{{ listing.description }}</div>
+                                <div>Bid: ${{ listing.price }}</div>
+                                <div>Listed by: {{ listing.user }}</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        {% empty %}
+        <br>
+            <center><h6>No active listings.</h6></center>
+
+        {% endfor %}
+    </ul>
+
+{% endblock %}
